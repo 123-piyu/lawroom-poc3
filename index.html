@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lawroom AI · Corporate Legal plugin demo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap">
+<style>
+:root{--bg:#f9fafb;--surface:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#7c5cf0;--accent-ink:#4c3a8f;--card:#f8f7fd;--card-line:#dcd7f5;--warn-bg:#fef2f2;--warn:#b91c1c;--ok-bg:#ecfdf5;--ok:#047857;--mid-bg:#fffbeb;--mid:#b45309;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1117;--surface:#171a23;--ink:#f3f4f6;--muted:#9ca3af;--line:#2a2f3c;--accent:#a78bfa;--accent-ink:#c9bdfb;--card:#1a1b2b;--card-line:#33305a;--warn-bg:#3a1a1a;--warn:#fca5a5;--ok-bg:#12302a;--ok:#6ee7b7;--mid-bg:#33290f;--mid:#fcd34d}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1117;--surface:#171a23;--ink:#f3f4f6;--muted:#9ca3af;--line:#2a2f3c;--accent:#a78bfa;--accent-ink:#c9bdfb;--card:#1a1b2b;--card-line:#33305a;--warn-bg:#3a1a1a;--warn:#fca5a5;--ok-bg:#12302a;--ok:#6ee7b7;--mid-bg:#33290f;--mid:#fcd34d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+.wrap{max-width:920px;margin:0 auto;padding:40px 20px 48px}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:44px;text-align:center;margin:0}
+h1 span{color:var(--accent)}
+.sub{text-align:center;color:var(--muted);margin:6px 0 4px}
+.tag{display:block;width:fit-content;margin:10px auto 26px;background:var(--card);border:1px solid var(--card-line);color:var(--accent-ink);font-size:12px;font-weight:600;padding:4px 12px;border-radius:99px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.cmd{font-size:12px;color:var(--accent-ink);font-weight:600;margin-bottom:6px;font-family:ui-monospace,Menlo,Consolas,monospace}
+textarea{width:100%;border:0;outline:0;resize:vertical;min-height:84px;background:transparent;color:var(--ink);font:inherit;font-size:15px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hint{font-size:12px;color:var(--muted)}
+button.run{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:9px 18px;font:inherit;font-weight:600;cursor:pointer}
+button.run:disabled{opacity:.5;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}
+.card{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--card-line);border-radius:16px;padding:14px;cursor:pointer;font:inherit;color:inherit}
+.card:hover,.card.on{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,92,240,.18)}
+.ic{flex:none;width:40px;height:40px;border-radius:10px;background:var(--surface);display:grid;place-items:center;color:var(--accent);font-weight:700}
+.card b{display:block;color:var(--accent-ink);font-size:14px}
+.card small{color:var(--accent-ink);opacity:.8;font-size:12px}
+#out{margin-top:6px}
+.res{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.res h3{margin:0 0 4px;font-size:16px}
+.res .meta{font-size:12px;color:var(--muted);margin-bottom:12px}
+.res > *{animation:in .35s both}
+@keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600}
+.c{color:var(--muted);font-size:11px;white-space:nowrap}
+.p{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:99px}
+.hi{background:var(--warn-bg);color:var(--warn)}.md{background:var(--mid-bg);color:var(--mid)}.lo,.ok{background:var(--ok-bg);color:var(--ok)}
+.doc{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px}
+.doc p{margin:6px 0}
+ul.k{margin:6px 0;padding-left:20px;font-size:13px}
+.foot{font-size:12px;color:var(--muted);margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.disc{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Lawroom <span>AI</span></h1>
+  <p class="sub">Your legal research assistant for Indian law</p>
+  <span class="tag">Corporate Legal plugin · Demo with sample data</span>
+
+  <div class="box">
+    <div class="cmd" id="cmd">/corporate-legal:…</div>
+    <textarea id="inp" placeholder="Pick a workflow below to load a sample test, or type your own…"></textarea>
+    <div class="row"><span class="hint">Demo mode: outputs are pre-written examples, no live AI call.</span><button class="run" id="run" disabled>Run demo</button></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div id="out"></div>
+
+  <p class="disc">Disclaimer: Lawroom AI provides informational assistance and is not a substitute for professional legal advice. All names and figures here are fictional.</p>
+</div>
+
+<script>
+var S = [
+{id:"tabular-review",ic:"▦",t:"Tabular Review",d:"One row per document, every cell cited",
+ inp:"Run a tabular review on the data room folder “Project Kaveri – Contracts”. Columns: counterparty, term, change of control, governing law. Documents: 4 supplier and customer agreements.",
+ h:"Tabular diligence review · 4 documents",
+ o:[
+ '<div class="scroll"><table><tr><th>Document</th><th>Counterparty</th><th>Term</th><th>Change of control</th><th>Governing law</th></tr>'+
+ '<tr><td>MSA – Supplier A</td><td>Bharat Components Pvt Ltd</td><td>3 yrs from 1 Apr 2025 <span class="c">[cl. 2.1]</span></td><td>No restriction <span class="c">[cl. 14]</span></td><td>India, Mumbai courts <span class="c">[cl. 19]</span></td></tr>'+
+ '<tr><td>Customer Agreement B</td><td>Orion Retail Ltd</td><td>5 yrs, auto-renews <span class="c">[cl. 3.2]</span></td><td><span class="p hi">Consent required</span> <span class="c">[cl. 12.4]</span></td><td>India, Delhi courts <span class="c">[cl. 21]</span></td></tr>'+
+ '<tr><td>Licence C</td><td>Nimbus Software Inc</td><td>2 yrs <span class="c">[cl. 4]</span></td><td><span class="p md">Notice 30 days</span> <span class="c">[cl. 10.2]</span></td><td>Delaware, USA <span class="c">[cl. 17]</span></td></tr>'+
+ '<tr><td>Lease D</td><td>Sunrise Estates LLP</td><td>9 yrs <span class="c">[cl. 2]</span></td><td>Silent <span class="c">[none found]</span></td><td>India, Pune courts <span class="c">[cl. 25]</span></td></tr></table></div>',
+ '<ul class="k"><li>1 of 4 contracts needs counterparty consent on a change of control (Orion Retail).</li><li>1 contract is governed by foreign law (Delaware) and may need local counsel review.</li></ul>']},
+{id:"diligence-issue-extraction",ic:"!",t:"Issue Extractor",d:"Pull issues by category and materiality",
+ inp:"Read the Orion Retail customer agreement and extract issues. House categories: change of control, exclusivity, termination, liability cap. Materiality threshold: ₹50 lakh.",
+ h:"Diligence issues · Orion Retail agreement",
+ o:[
+ '<div class="scroll"><table><tr><th>Issue</th><th>Category</th><th>Materiality</th><th>Source</th></tr>'+
+ '<tr><td>Counterparty consent needed if buyer acquires over 50% of shares</td><td>Change of control</td><td><span class="p hi">High</span></td><td class="c">cl. 12.4</td></tr>'+
+ '<tr><td>Orion may terminate for convenience on 60 days’ notice; seller cannot</td><td>Termination</td><td><span class="p hi">High</span></td><td class="c">cl. 15.1</td></tr>'+
+ '<tr><td>Seller is exclusive supplier in 3 states for the full term</td><td>Exclusivity</td><td><span class="p md">Medium</span></td><td class="c">cl. 6.2</td></tr>'+
+ '<tr><td>Liability capped at fees paid in the last 12 months (about ₹1.2 crore)</td><td>Liability cap</td><td><span class="p lo">Low</span></td><td class="c">cl. 18</td></tr></table></div>',
+ '<div class="foot">Suggested next step: request Orion’s consent early, before signing the share purchase agreement.</div>']},
+{id:"written-consent",ic:"✎",t:"Board Consent Drafter",d:"Written consent in house format",
+ inp:"Draft a board resolution by circulation approving the appointment of Ms. Ananya Rao as an additional director of Kaveri Technologies Private Limited, effective 1 November 2026.",
+ h:"Draft · Resolution by circulation",
+ o:[
+ '<div class="doc"><p><b>KAVERI TECHNOLOGIES PRIVATE LIMITED</b><br>Resolution passed by circulation under Section 175 of the Companies Act, 2013</p>'+
+ '<p><b>RESOLVED THAT</b> pursuant to Section 161 of the Companies Act, 2013 and the Articles of Association, Ms. Ananya Rao (DIN: [●]) is appointed as an Additional Director of the Company with effect from 1 November 2026, to hold office up to the date of the next general meeting.</p>'+
+ '<p><b>RESOLVED FURTHER THAT</b> any Director or the Company Secretary is authorised to file Form DIR-12 with the Registrar of Companies within 30 days and to do all acts necessary to give effect to this resolution.</p>'+
+ '<p class="c">[Precedent used: prior appointment resolution, FY 2025-26] · Items in [●] need to be filled in</p></div>',
+ '<div class="foot">Checklist: consent in Form DIR-2, DIN confirmation, and disclosure of interest in Form MBP-1 are still needed from the appointee.</div>']},
+{id:"material-contract-schedule",ic:"☰",t:"Contracts Schedule",d:"Disclosure schedule from findings",
+ inp:"Build the material contracts disclosure schedule for the share purchase agreement from the Project Kaveri diligence findings. Threshold: contracts above ₹50 lakh annual value, or with change-of-control terms.",
+ h:"Schedule 4.12 · Material Contracts",
+ o:[
+ '<div class="scroll"><table><tr><th>#</th><th>Contract</th><th>Annual value</th><th>Why listed</th></tr>'+
+ '<tr><td>1</td><td>Customer Agreement B (Orion Retail)</td><td>₹3.4 crore</td><td>Above threshold; change of control</td></tr>'+
+ '<tr><td>2</td><td>MSA – Supplier A (Bharat Components)</td><td>₹1.1 crore</td><td>Above threshold</td></tr>'+
+ '<tr><td>3</td><td>Licence C (Nimbus Software)</td><td>₹18 lakh</td><td>Change of control notice</td></tr>'+
+ '<tr><td colspan="4" class="c">Lease D (₹24 lakh a year, silent on change of control) is below the threshold and not listed.</td></tr></table></div>']},
+{id:"entity-compliance",ic:"✓",t:"Entity Compliance",d:"Filing deadlines and health audit",
+ inp:"Compute the annual ROC filing deadlines for Kaveri Technologies Private Limited. Financial year ended 31 March 2026. AGM held on 20 September 2026.",
+ h:"Compliance calendar · AGM on 20 Sep 2026",
+ o:[
+ '<div class="scroll"><table><tr><th>Filing</th><th>Rule of thumb</th><th>Due date</th><th>Status</th></tr>'+
+ '<tr><td>AOC-4 (financial statements)</td><td>30 days from AGM</td><td>20 Oct 2026</td><td><span class="p hi">Overdue by 1 day</span></td></tr>'+
+ '<tr><td>MGT-7 (annual return)</td><td>60 days from AGM</td><td>19 Nov 2026</td><td><span class="p md">Due in 29 days</span></td></tr>'+
+ '<tr><td>ADT-1 (auditor appointment)</td><td>15 days from AGM</td><td>5 Oct 2026</td><td><span class="p ok">Filed</span></td></tr>'+
+ '<tr><td>DIR-3 KYC (directors)</td><td>By 30 September</td><td>30 Sep 2026</td><td><span class="p ok">Done</span></td></tr></table></div>',
+ '<div class="foot">Late fees apply per day of delay on AOC-4, so file it now. Always confirm current due dates on the MCA portal.</div>']},
+{id:"closing-checklist",ic:"☑",t:"Closing Checklist",d:"Every condition blocking close",
+ inp:"Show the closing checklist for the Project Kaveri share purchase. Target closing date: 15 December 2026.",
+ h:"Closing checklist · target 15 Dec 2026",
+ o:[
+ '<div class="scroll"><table><tr><th>Item</th><th>Owner</th><th>Status</th></tr>'+
+ '<tr><td>Orion Retail consent (cl. 12.4)</td><td>Seller counsel</td><td><span class="p hi">Blocking</span></td></tr>'+
+ '<tr><td>Board and shareholder approvals</td><td>Company Secretary</td><td><span class="p md">Drafted</span></td></tr>'+
+ '<tr><td>Disclosure schedules finalised</td><td>Buyer counsel</td><td><span class="p md">In review</span></td></tr>'+
+ '<tr><td>CCI approval, if thresholds are met</td><td>Buyer counsel</td><td><span class="p md">Assessing</span></td></tr>'+
+ '<tr><td>Signed share purchase agreement</td><td>Both parties</td><td><span class="p ok">Agreed</span></td></tr></table></div>',
+ '<div class="foot">1 blocking item, 3 in progress, 1 complete. The Orion consent is the critical path to closing.</div>']},
+{id:"integration-management",ic:"⇄",t:"Integration Runbook",d:"Post-closing plan and weekly status",
+ inp:"Create a 90-day post-closing integration plan for Project Kaveri, including consent tracking and a weekly status update.",
+ h:"Integration runbook · first 90 days",
+ o:[
+ '<div class="scroll"><table><tr><th>Phase</th><th>Key legal actions</th></tr>'+
+ '<tr><td><b>Days 1–30</b></td><td>File director change forms, update bank mandates, notify key customers and suppliers of the ownership change</td></tr>'+
+ '<tr><td><b>Days 31–60</b></td><td>Close out pending third-party consents, align policies and signing authority matrix</td></tr>'+
+ '<tr><td><b>Days 61–90</b></td><td>Merge contract templates, review shared services agreements, complete the compliance health audit</td></tr></table></div>',
+ '<div class="foot"><b>Week 1 status:</b> 6 of 14 actions done · 2 consents pending · 0 blockers</div>']}
+];
+var grid=document.getElementById("grid"),inp=document.getElementById("inp"),cmd=document.getElementById("cmd"),run=document.getElementById("run"),out=document.getElementById("out"),cur=null;
+S.forEach(function(s,i){
+  var b=document.createElement("button");b.className="card";b.id="c"+i;
+  b.innerHTML='<span class="ic">'+s.ic+'</span><span><b>'+s.t+'</b><small>'+s.d+'</small></span>';
+  b.onclick=function(){pick(i)};grid.appendChild(b);
+});
+function pick(i){
+  cur=S[i];inp.value=cur.inp;cmd.textContent="/corporate-legal:"+cur.id;run.disabled=false;out.innerHTML="";
+  S.forEach(function(_,j){document.getElementById("c"+j).classList.toggle("on",j===i)});
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+run.onclick=function(){
+  if(!cur)return;
+  run.disabled=true;run.textContent="Running…";
+  out.innerHTML='<div class="res"><div class="meta">Reading documents and applying your practice profile…</div></div>';
+  setTimeout(function(){
+    var h='<div class="res"><h3>'+cur.h+'</h3><div class="meta">/corporate-legal:'+cur.id+' · sample output</div>'+cur.o.join("")+
+    '<div class="foot">Draft for lawyer review. Not legal advice. Illustrative output only.</div></div>';
+    out.innerHTML=h;
+    var kids=out.querySelector(".res").children;
+    for(var k=0;k<kids.length;k++){kids[k].style.animationDelay=(k*0.25)+"s"}
+    run.disabled=false;run.textContent="Run demo";
+    out.scrollIntoView({behavior:"smooth",block:"start"});
+  },900);
+};
+</script>
+</body>
+</html>
